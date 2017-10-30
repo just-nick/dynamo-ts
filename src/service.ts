@@ -23,8 +23,8 @@ export namespace DynamodbService {
         return _.cloneDeep(defaultTableDefinition);
     }
 
-    export function configureDynamoDb(): Promise<any> {
-        dynamodb = new AWS.DynamoDB(config());
+    export function configureDynamoDb(options: any = {}): Promise<any> {
+        dynamodb = new AWS.DynamoDB(config(options));
 
         let newTables: Promise<any>[] = [];
 
@@ -72,7 +72,7 @@ export namespace DynamodbService {
             TableName,
             Key
         };
-        
+
         return new Promise((resolve, reject) => {
             docClient.get(request, (err, data) => {
                 if (err) {
@@ -119,7 +119,7 @@ export namespace DynamodbService {
         const params = _.merge({
             TableName: Table.name
         }, properties);
-        
+
         return new Promise((resolve, reject) => {
             docClient.delete(params, (err, data) => {
                 if (err) {
@@ -131,7 +131,7 @@ export namespace DynamodbService {
             })
         });
     }
-    
+
     export function update<C>(Table: TableClass<C>, properties: UpdateProperties) {
         const docClient = new AWS.DynamoDB.DocumentClient(config());
         const TableName = Table.name;
@@ -191,14 +191,12 @@ export namespace DynamodbService {
         });
     }
 
-    function config() {
-        return {
-            accessKeyId: "key",
-            secretAccessKey: "secret",
-            region: "localhost",
-            endpoint: 'http://localhost:8000',
-            convertEmptyValues: true
-        } as any;
+    function config(options: any = {}) {
+        if (options.convertEmptyValues === undefined) {
+            options.convertEmptyValues = true;
+        }
+
+        return options;
     }
 
     export interface TableClass<T> {

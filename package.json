@@ -1,6 +1,6 @@
 {
     "name": "dynamo-ts",
-    "version": "0.0.0-prealpha",
+    "version": "0.0.1-prealpha",
     "description": "Typescript library for DynamoDB taking advantage of decorators",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
