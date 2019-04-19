@@ -23,9 +23,12 @@ export namespace DynamodbService {
         return _.cloneDeep(defaultTableDefinition);
     }
 
-    export function configureDynamoDb(options: any = {}): Promise<any> {
+    export function configureDynamoDb(options: any = {}): void {
         dynamodb = new AWS.DynamoDB(config(options));
+    }
 
+    // @todo types
+    export function migrate(): Promise<any> {
         let newTables: Promise<any>[] = [];
 
         if (migrated) {
