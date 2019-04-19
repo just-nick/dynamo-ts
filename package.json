@@ -1,23 +1,21 @@
 {
     "name": "dynamo-ts",
-    "version": "0.0.2-prealpha",
+    "version": "0.0.4-prealpha",
     "description": "Typescript library for DynamoDB taking advantage of decorators",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "prepublish": "npm run build",
+        "prepublishOnly": "npm run build",
         "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Just-Nick",
     "license": "ISC",
     "dependencies": {
-        "lodash": "^4.17.11",
         "reflect-metadata": "^0.1.10",
         "shortid": "^2.2.8"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.123",
         "@types/node": "^8.0.44",
         "aws-sdk": "^2.440.0",
         "typescript": "^2.4.2"

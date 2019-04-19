@@ -2,7 +2,6 @@ import { IndexOptions } from './decorators';
 import { TABLE_DEFINITION, AUTO_GENERATE } from './constants';
 import { DynamodbService } from "./service";
 import { defaultsHelper } from "./defaults.helper";
-import * as _ from 'lodash';
 
 export function Key(options?: KeyOptions) {
     const defaultOptions: KeyOptions = {
@@ -57,7 +56,13 @@ export function Index(options?: IndexOptions) {
             tableDefinition.GlobalSecondaryIndexes = [];
         }
 
-        let index = _.find(tableDefinition.GlobalSecondaryIndexes, (index: any) => (index.IndexName === options.name));
+        let index: any | null = null;
+        for (const [i, gsi] of tableDefinition.GlobalSecondaryIndexes) {
+            if (gsi.IndexName === options.name) {
+                index = gsi;
+                break;
+            }
+        }
 
         if (!index) {
             index = {

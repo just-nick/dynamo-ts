@@ -1,5 +1,4 @@
 import { TABLE_DEFINITION, AUTO_GENERATE } from './constants';
-import * as _ from 'lodash';
 import * as AWS from 'aws-sdk';
 import * as shortid from 'shortid';
 import 'reflect-metadata';
@@ -20,7 +19,7 @@ export namespace DynamodbService {
     };
 
     export function getDefaultTableDefinition() {
-        return _.cloneDeep(defaultTableDefinition);
+        return {...defaultTableDefinition};
     }
 
     export function configureDynamoDb(options: any = {}): void {
@@ -119,9 +118,10 @@ export namespace DynamodbService {
     export function del<C>(Table: TableClass<C>, properties: DeleteProperties) {
         const docClient = new AWS.DynamoDB.DocumentClient(config());
         const TableName = Table.name;
-        const params = _.merge({
+        const params = {
+            ...properties,
             TableName: Table.name
-        }, properties);
+        };
 
         return new Promise((resolve, reject) => {
             docClient.delete(params, (err, data) => {
@@ -138,9 +138,10 @@ export namespace DynamodbService {
     export function update<C>(Table: TableClass<C>, properties: UpdateProperties) {
         const docClient = new AWS.DynamoDB.DocumentClient(config());
         const TableName = Table.name;
-        const params = _.merge({
+        const params = {
+            ...properties,
             TableName: Table.name
-        }, properties);
+        };
 
         return new Promise((resolve, reject) => {
             docClient.delete(params, (err, data) => {
@@ -157,10 +158,11 @@ export namespace DynamodbService {
     export function scan<C>(Table: TableClass<C>, properties: ScanProperties) {
         const docClient = new AWS.DynamoDB.DocumentClient(config());
         const TableName = Table.name;
-        const params = _.merge({
+        const params = {
+            ...properties,
             TableName: Table.name,
             Limit: 100
-        }, properties);
+        };
 
         console.log('Scan as', params);
 
@@ -177,9 +179,10 @@ export namespace DynamodbService {
 
     export function query<C>(Table: TableClass<C>, properties?: QueryProperties) {
         const docClient = new AWS.DynamoDB.DocumentClient(config());
-        const params = _.merge({
+        const params = {
+            ...properties,
             TableName: Table.name
-        }, properties);
+        };
 
         console.log(params);
 
